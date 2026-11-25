@@ -33,9 +33,8 @@ SELECT COUNT(*) AS n, MIN(date_received) AS first_date,
        MAX(date_received) AS last_date, COUNT(DISTINCT issue) AS n_issues
 FROM `cfpb-nlp.cfpb.cc_complaints`;
 
--- 2. Modelling table: 11 labels + time-based split.
---    5 small credit-report issues merged into 'Credit reporting' (2,773).
---    'Incorrect information on your report' (2,158) kept as its own class.
+-- 2. Modelling table: 10 labels + time-based split.
+--    6 small credit-report issues merged into 'Credit reporting' (4931)
 --    Split: train 2017-2020 (45,130), valid 2021 (14,658), test 2022-23 (22,208)
 CREATE OR REPLACE TABLE `cfpb-nlp.cfpb.cc_model` AS
 SELECT
@@ -44,12 +43,12 @@ SELECT
   narrative,
   issue,
   CASE
-    WHEN issue IN ('Incorrect information on your report',
-      'Problem with a credit reporting company's investigation into an existing problem',
-      'Improper use of your report',
-      'Credit monitoring or identity theft protection services',
-      'Unable to get your credit report or credit score',
-      'Problem with fraud alerts or security freezes'
+    WHEN issue IN (
+      "Problem with a credit reporting company's investigation into an existing problem",
+      "Improper use of your report",
+      "Credit monitoring or identity theft protection services",
+      "Unable to get your credit report or credit score",
+      "Problem with fraud alerts or security freezes"
     ) THEN 'Credit reporting'
     ELSE issue
   END AS label,
