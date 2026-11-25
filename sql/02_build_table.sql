@@ -44,8 +44,8 @@ SELECT
   narrative,
   issue,
   CASE
-    WHEN issue IN (
-      "Problem with a credit reporting company's investigation into an existing problem",
+    WHEN issue IN ('Incorrect information on your report',
+      'Problem with a credit reporting company's investigation into an existing problem',
       'Improper use of your report',
       'Credit monitoring or identity theft protection services',
       'Unable to get your credit report or credit score',
